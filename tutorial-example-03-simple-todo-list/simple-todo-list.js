@@ -1,29 +1,47 @@
-var Seconds = React.createClass({
+var TodoList = React.createClass({
     getInitialState: function () {
-        var start = 0;
-        if (this.props.start) start = parseInt(this.props.start);
-        return { pocetSekund: start };
+        return {items: [], text: ''};
     },
-    componentDidMount: function () {
-        this.nastavTimer();
+    handleSubmit: function (e) {
+        e.preventDefault();
+        var nextItems = this.state.items.concat([this.state.text]);
+        this.setState({ items: nextItems, text: '' });
     },
-    nastavTimer: function () {
-        this.interval = setInterval(this.timer, 1000);
-    },
-    componentWillUnmount: function () {
-        clearInterval(this.interval);
-    },
-    timer: function () {
-        this.setState({ pocetSekund: this.state.pocetSekund + 1 });
+    onChange: function (e) {
+        this.setState({ text: e.target.value });
     },
     render: function () {
         return (
-            <div >Sekund od zacatku: { this.state.pocetSekund }</div>
+            <div>
+                <TodoListList list={ this.state.items } />
+                <form onSubmit={ this.handleSubmit } >
+                    <input onChange={ this.onChange } value={ this.state.text } />
+                    <button>Add #{ this.state.items.length + 1 }</button>
+                </form>
+            </div>
+            );
+    }
+});
+
+var TodoListList = React.createClass({
+    render: function () {
+        var renderLi = function (i) {
+            return(
+                <li>{i}</li>
+                );
+        };
+        return (
+            <div>
+                <h2>Todo({ this.props.list.length }):</h2>
+                <ul>
+                { this.props.list.map(renderLi) }
+                </ul>
+            </div>
             );
     }
 });
 
 
-React.render(<Seconds />, document.getElementById('content'));
-React.render(<Seconds start="5"/>, document.getElementById('content2'));
+React.render(<TodoList />, document.getElementById('content'));
+React.render(<TodoList />, document.getElementById('content2'));
 
