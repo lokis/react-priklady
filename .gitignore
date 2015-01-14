@@ -1,3 +1,5 @@
 /.idea
 /bower_components
 /node_modules
+/test-build-01-jsx-transform/index.html
+/test-build-01-jsx-transform/transformed.js
