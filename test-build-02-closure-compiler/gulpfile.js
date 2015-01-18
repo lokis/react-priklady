@@ -28,27 +28,20 @@ sources = {
 };
 
 
-//gulp.task('build-js-my', ['build-js-transform'], function () {
-gulp.task('build-js-my', function () {
-    return gulp.src([sources.react, sources.js.transformed])
+gulp.task('build-js-my', ['build-js-transform'], function () {
+    //return gulp.src([sources.react, sources.js.transformed])
+    return gulp.src([sources.js.react, sources.js.transformed])
         .pipe(closureCompiler({
             compilerPath: '../bower_components/closure-compiler/lib/vendor/compiler.jar',
-            fileName: sources.js.compiled,
+            fileName: 'a.js',//sources.js.compiled,
             compilerFlags: {
-                closure_entry_point: 'app.main',
-                //compilation_level: 'ADVANCED_OPTIMIZATIONS',
-                define: [
-                    "goog.DEBUG=false"
-                ],
+                compilation_level: 'ADVANCED_OPTIMIZATIONS',
                 externs: [
                     '../bower_components/react-externs/externs.js'
                 ],
-                extra_annotation_name: 'jsx',
-                // Some compiler flags (like --use_types_for_optimization) don't have value. Use null.
-                // use_types_for_optimization: null,
-                only_closure_dependencies: true,
-                output_wrapper: '(function(){%output%})();',
-                warning_level: 'VERBOSE'
+                //only_closure_dependencies: true,
+                output_wrapper: '(function(){%output%})();'
+                //warning_level: 'VERBOSE'
             }
         }))
         .pipe(gulp.dest('.'));
@@ -89,7 +82,7 @@ gulp.task('clean', function () {
 });
 
 
-gulp.task('build', ['build-html-main', 'build-js-transform']);
+gulp.task('build', ['build-html-main', 'build-js-my']);
 
 gulp.task('compiler', ['build-js-my']);
 
